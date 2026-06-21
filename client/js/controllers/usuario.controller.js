@@ -52,5 +52,10 @@ angular.module('miniTwitterApp')
         $location.path('/tuit/' + t.id);
       };
 
+      $scope.logout = function () {
+        sessionStorage.clear();
+        $location.path('/login');
+      };
+
       load();
     }]);

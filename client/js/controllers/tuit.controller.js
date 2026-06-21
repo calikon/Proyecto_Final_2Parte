@@ -89,5 +89,10 @@ angular.module('miniTwitterApp')
           });
       };
 
+      $scope.logout = function () {
+        sessionStorage.clear();
+        $location.path('/login');
+      };
+
       load();
     }]);

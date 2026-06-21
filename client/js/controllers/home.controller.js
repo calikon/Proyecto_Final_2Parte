@@ -89,6 +89,8 @@ angular.module('miniTwitterApp')
         .then(function (tuit) {
           $scope.tuits.unshift(tuit);
           $scope.newTexto = '';
+          const modalEl = document.getElementById('newTuitModal');
+          bootstrap.Modal.getInstance(modalEl).hide();
         })
         .catch(function (err) {
           $scope.newError = err.message;
