@@ -1,0 +1,71 @@
+<div>
+  <nav class="d-flex align-items-center gap-2 p-2 border-bottom">
+    <a href="#!/home"><i class="fas fa-arrow-left"></i> Volver</a>
+  </nav>
+
+  <div class="container py-3" style="max-width:600px">
+    <div class="alert alert-danger" ng-show="errorMessage">{{ errorMessage }}</div>
+    <div class="text-center text-muted py-4" ng-show="loading">Cargando…</div>
+
+    <div class="card mb-3" ng-if="!loading && tuit">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <a href="" ng-click="openUsuario(tuit.username)">@{{ tuit.username }}</a>
+          <small class="text-muted">{{ tuit.fecha }}</small>
+        </div>
+        <p class="mb-2">{{ tuit.texto }}</p>
+        <div class="d-flex gap-3">
+          <span class="text-muted"><i class="fas fa-reply"></i> {{ tuit.num_respuestas }}</span>
+          <button class="btn btn-sm" ng-class="tuit.retuiteado ? 'btn-success' : 'btn-light'"
+                  ng-click="toggleRetuit(tuit)">
+            <i class="fas fa-retweet"></i> {{ tuit.num_retuits }}
+          </button>
+          <button class="btn btn-sm" ng-class="tuit.liked ? 'btn-danger' : 'btn-light'"
+                  ng-click="toggleLike(tuit)">
+            <i class="fas fa-heart"></i> {{ tuit.num_likes }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3" ng-if="!loading">
+      <div class="card-body">
+        <div class="alert alert-danger py-2" style="font-size:.85rem" ng-show="replyError">{{ replyError }}</div>
+        <textarea class="form-control mb-2" rows="2" maxlength="300"
+                  placeholder="Tu respuesta…" ng-model="replyTexto"></textarea>
+        <button class="btn btn-primary btn-sm" ng-click="submitReply()" ng-disabled="replying">
+          Responder
+        </button>
+      </div>
+    </div>
+
+    <h6 ng-if="!loading">Respuestas</h6>
+    <p class="text-center text-muted py-3" ng-show="!loading && replies.length === 0">
+      Sin respuestas todavía.
+    </p>
+
+    <div class="card mb-2" ng-repeat="r in replies">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <a href="" ng-click="openUsuario(r.username)">@{{ r.username }}</a>
+          <small class="text-muted">{{ r.fecha }}</small>
+        </div>
+        <p class="mb-2">{{ r.texto }}</p>
+        <div class="d-flex gap-3">
+          <button class="btn btn-sm" ng-class="r.retuiteado ? 'btn-success' : 'btn-light'"
+                  ng-click="toggleRetuit(r)">
+            <i class="fas fa-retweet"></i> {{ r.num_retuits }}
+          </button>
+          <button class="btn btn-sm" ng-class="r.liked ? 'btn-danger' : 'btn-light'"
+                  ng-click="toggleLike(r)">
+            <i class="fas fa-heart"></i> {{ r.num_likes }}
+          </button>
+          <button class="btn btn-sm btn-light" ng-show="isOwn(r)" ng-click="deleteReply(r)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
