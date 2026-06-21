@@ -1,0 +1,59 @@
+<div>
+  <nav class="d-flex justify-content-between align-items-center p-2 border-bottom">
+    <strong><i class="fas fa-dove"></i> MiniTwitter</strong>
+    <div>
+      <span class="me-2">@{{ myUsername }}</span>
+      <button class="btn btn-sm btn-outline-secondary" ng-click="logout()">Salir</button>
+    </div>
+  </nav>
+
+  <div class="container py-3" style="max-width:600px">
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="alert alert-danger py-2" style="font-size:.85rem" ng-show="newError">{{ newError }}</div>
+        <textarea class="form-control mb-2" rows="3" maxlength="300"
+                  placeholder="¿Qué está pasando?" ng-model="newTexto"></textarea>
+        <div class="d-flex justify-content-between align-items-center">
+          <small class="text-muted">{{ newTexto.length || 0 }}/300</small>
+          <button class="btn btn-primary btn-sm" ng-click="submitNewTuit()" ng-disabled="posting">
+            Publicar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-danger" ng-show="errorMessage">{{ errorMessage }}</div>
+    <div class="text-center text-muted py-4" ng-show="loading">Cargando…</div>
+    <p class="text-center text-muted py-4" ng-show="!loading && tuits.length === 0">
+      No hay tuits todavía. ¡Sé el primero!
+    </p>
+
+    <div class="card mb-2" ng-repeat="tuit in tuits">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <a href="" ng-click="openUsuario(tuit.username)">@{{ tuit.username }}</a>
+          <small class="text-muted">{{ tuit.fecha }}</small>
+        </div>
+        <p class="mb-2" style="cursor:pointer" ng-click="openTuit(tuit)">{{ tuit.texto }}</p>
+        <div class="d-flex gap-3">
+          <button class="btn btn-sm btn-light" ng-click="openTuit(tuit)">
+            <i class="fas fa-reply"></i> {{ tuit.num_respuestas }}
+          </button>
+          <button class="btn btn-sm" ng-class="tuit.retuiteado ? 'btn-success' : 'btn-light'"
+                  ng-click="toggleRetuit(tuit)">
+            <i class="fas fa-retweet"></i> {{ tuit.num_retuits }}
+          </button>
+          <button class="btn btn-sm" ng-class="tuit.liked ? 'btn-danger' : 'btn-light'"
+                  ng-click="toggleLike(tuit)">
+            <i class="fas fa-heart"></i> {{ tuit.num_likes }}
+          </button>
+          <button class="btn btn-sm btn-light" ng-show="isOwn(tuit)" ng-click="deleteTuit(tuit)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

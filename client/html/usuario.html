@@ -1,0 +1,42 @@
+<div>
+  <nav class="d-flex align-items-center gap-2 p-2 border-bottom">
+    <a href="#!/home"><i class="fas fa-arrow-left"></i> Volver</a>
+  </nav>
+
+  <div class="container py-3" style="max-width:600px">
+    <div class="text-center py-3">
+      <h4>@{{ username }}</h4>
+      <small class="text-muted">{{ tuits.length }} tuit{{ tuits.length === 1 ? '' : 's' }}</small>
+    </div>
+
+    <div class="alert alert-danger" ng-show="errorMessage">{{ errorMessage }}</div>
+    <div class="text-center text-muted py-4" ng-show="loading">Cargando…</div>
+    <p class="text-center text-muted py-4" ng-show="!loading && tuits.length === 0">
+      Este usuario no tiene tuits aún.
+    </p>
+
+    <div class="card mb-2" ng-repeat="tuit in tuits">
+      <div class="card-body">
+        <small class="text-muted">{{ tuit.fecha }}</small>
+        <p class="mb-2" style="cursor:pointer" ng-click="openTuit(tuit)">{{ tuit.texto }}</p>
+        <div class="d-flex gap-3">
+          <button class="btn btn-sm btn-light" ng-click="openTuit(tuit)">
+            <i class="fas fa-reply"></i> {{ tuit.num_respuestas }}
+          </button>
+          <button class="btn btn-sm" ng-class="tuit.retuiteado ? 'btn-success' : 'btn-light'"
+                  ng-click="toggleRetuit(tuit)">
+            <i class="fas fa-retweet"></i> {{ tuit.num_retuits }}
+          </button>
+          <button class="btn btn-sm" ng-class="tuit.liked ? 'btn-danger' : 'btn-light'"
+                  ng-click="toggleLike(tuit)">
+            <i class="fas fa-heart"></i> {{ tuit.num_likes }}
+          </button>
+          <button class="btn btn-sm btn-light" ng-show="isOwn(tuit)" ng-click="deleteTuit(tuit)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="login-wrapper d-flex align-items-center justify-content-center" style="min-height:100vh">
+  <div class="login-card p-4" style="max-width:380px;width:100%">
+    <div class="text-center mb-4">
+      <div class="login-logo"><i class="fas fa-dove"></i> MiniTwitter</div>
+      <p class="text-muted mt-1" style="font-size:.9rem">Inicia sesión para continuar</p>
+    </div>
+
+    <div class="alert alert-danger py-2" style="font-size:.88rem" ng-show="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <form ng-submit="submit()" novalidate>
+      <div class="mb-3">
+        <label class="form-label">Usuario</label>
+        <input type="text" class="form-control" ng-model="username"
+               placeholder="Tu nombre de usuario" autocomplete="username">
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Contraseña</label>
+        <input type="password" class="form-control" ng-model="password"
+               placeholder="Tu contraseña" autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary w-100" ng-disabled="loading">
+        <span ng-if="!loading"><i class="fas fa-sign-in-alt me-1"></i> Entrar</span>
+        <span ng-if="loading">Entrando…</span>
+      </button>
+    </form>
+  </div>
+</div>
