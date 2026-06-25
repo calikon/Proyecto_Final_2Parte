@@ -1,59 +1,81 @@
 <div>
-  <nav class="d-flex justify-content-between align-items-center p-2 border-bottom">
-    <strong><i class="fas fa-dove"></i> MiniTwitter</strong>
-    <div>
-      <span class="me-2">@{{ myUsername }}</span>
-      <button class="btn btn-sm btn-outline-secondary" ng-click="logout()">Salir</button>
+  <nav class="mt-navbar">
+    <a href="#!/home" class="mt-navbar-brand"><i class="fas fa-dove"></i> MiniTwitter</a>
+    <div class="nav-actions">
+      <span class="nav-username">@{{ myUsername }}</span>
+      <button class="btn-accent btn-sm" data-bs-toggle="modal" data-bs-target="#newTuitModal">
+        <i class="fas fa-feather-alt"></i>
+        <span class="d-none d-sm-inline ms-1">Nuevo tuit</span>
+      </button>
+      <button class="btn-ghost btn-sm" ng-click="logout()" title="Cerrar sesión">
+        <i class="fas fa-right-from-bracket"></i>
+      </button>
     </div>
   </nav>
 
-  <div class="container py-3" style="max-width:600px">
-
-    <div class="card mb-3">
-      <div class="card-body">
-        <div class="alert alert-danger py-2" style="font-size:.85rem" ng-show="newError">{{ newError }}</div>
-        <textarea class="form-control mb-2" rows="3" maxlength="300"
-                  placeholder="¿Qué está pasando?" ng-model="newTexto"></textarea>
-        <div class="d-flex justify-content-between align-items-center">
-          <small class="text-muted">{{ newTexto.length || 0 }}/300</small>
-          <button class="btn btn-primary btn-sm" ng-click="submitNewTuit()" ng-disabled="posting">
-            Publicar
-          </button>
-        </div>
-      </div>
-    </div>
-
+  <div class="mt-feed">
     <div class="alert alert-danger" ng-show="errorMessage">{{ errorMessage }}</div>
-    <div class="text-center text-muted py-4" ng-show="loading">Cargando…</div>
-    <p class="text-center text-muted py-4" ng-show="!loading && tuits.length === 0">
+    <div class="text-center py-5" ng-show="loading">
+      <div class="spinner-border text-teal" role="status"></div>
+    </div>
+    <p class="text-center py-5" style="color:var(--text-muted)" ng-show="!loading && tuits.length === 0">
       No hay tuits todavía. ¡Sé el primero!
     </p>
 
-    <div class="card mb-2" ng-repeat="tuit in tuits">
-      <div class="card-body">
-        <div class="d-flex justify-content-between">
-          <a href="" ng-click="openUsuario(tuit.username)">@{{ tuit.username }}</a>
-          <small class="text-muted">{{ tuit.fecha }}</small>
+    <div class="tuit-card" ng-repeat="tuit in tuits">
+      <div class="d-flex gap-3">
+        <div class="tuit-avatar" ng-style="{background: tuit.username | avatarColor}">
+          {{ tuit.username | initials }}
         </div>
-        <p class="mb-2" style="cursor:pointer" ng-click="openTuit(tuit)">{{ tuit.texto }}</p>
-        <div class="d-flex gap-3">
-          <button class="btn btn-sm btn-light" ng-click="openTuit(tuit)">
-            <i class="fas fa-reply"></i> {{ tuit.num_respuestas }}
-          </button>
-          <button class="btn btn-sm" ng-class="tuit.retuiteado ? 'btn-success' : 'btn-light'"
-                  ng-click="toggleRetuit(tuit)">
-            <i class="fas fa-retweet"></i> {{ tuit.num_retuits }}
-          </button>
-          <button class="btn btn-sm" ng-class="tuit.liked ? 'btn-danger' : 'btn-light'"
-                  ng-click="toggleLike(tuit)">
-            <i class="fas fa-heart"></i> {{ tuit.num_likes }}
-          </button>
-          <button class="btn btn-sm btn-light" ng-show="isOwn(tuit)" ng-click="deleteTuit(tuit)">
-            <i class="fas fa-trash"></i>
+        <div class="flex-grow-1 overflow-hidden">
+          <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+            <a href="" ng-click="openUsuario(tuit.username)" class="tuit-username">@{{ tuit.username }}</a>
+            <span class="tuit-date">{{ tuit.fecha }}</span>
+          </div>
+          <div class="tuit-text clickable" ng-click="openTuit(tuit)">{{ tuit.texto }}</div>
+          <div class="tuit-actions">
+            <button class="btn-action btn-reply" ng-click="openTuit(tuit)" title="Responder">
+              <i class="fas fa-reply"></i> <span>{{ tuit.num_respuestas }}</span>
+            </button>
+            <button class="btn-action btn-rt" ng-class="{active: tuit.retuiteado}"
+                    ng-click="toggleRetuit(tuit)" title="Retuit">
+              <i class="fas fa-retweet"></i> <span>{{ tuit.num_retuits }}</span>
+            </button>
+            <button class="btn-action btn-like" ng-class="{active: tuit.liked}"
+                    ng-click="toggleLike(tuit)" title="Me gusta">
+              <i class="fas fa-heart"></i> <span>{{ tuit.num_likes }}</span>
+            </button>
+            <button class="btn-action btn-delete" ng-show="isOwn(tuit)" ng-click="deleteTuit(tuit)" title="Eliminar">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="newTuitModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fas fa-feather-alt text-teal me-2"></i>Nuevo tuit</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger py-2 mb-2" style="font-size:.85rem" ng-show="newError">{{ newError }}</div>
+          <textarea class="form-control mb-1" rows="4" maxlength="300"
+                    placeholder="¿Qué está pasando?" style="resize:none" ng-model="newTexto"></textarea>
+          <div class="d-flex justify-content-end mb-2">
+            <small class="char-counter">{{ newTexto.length || 0 }}/300</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-ghost btn-sm" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn-accent btn-sm" ng-click="submitNewTuit()" ng-disabled="posting">
+            <i class="fas fa-paper-plane me-1"></i>Publicar
           </button>
         </div>
       </div>
     </div>
-
   </div>
 </div>

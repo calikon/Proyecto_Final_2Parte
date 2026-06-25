@@ -1,5 +1,5 @@
-<div class="login-wrapper d-flex align-items-center justify-content-center" style="min-height:100vh">
-  <div class="login-card p-4" style="max-width:380px;width:100%">
+<div class="login-wrapper">
+  <div class="login-card">
     <div class="text-center mb-4">
       <div class="login-logo"><i class="fas fa-dove"></i> MiniTwitter</div>
       <p class="text-muted mt-1" style="font-size:.9rem">Inicia sesión para continuar</p>
@@ -20,7 +20,7 @@
         <input type="password" class="form-control" ng-model="password"
                placeholder="Tu contraseña" autocomplete="current-password">
       </div>
-      <button type="submit" class="btn btn-primary w-100" ng-disabled="loading">
+      <button type="submit" class="btn-accent w-100" style="padding:10px" ng-disabled="loading">
         <span ng-if="!loading"><i class="fas fa-sign-in-alt me-1"></i> Entrar</span>
         <span ng-if="loading">Entrando…</span>
       </button>

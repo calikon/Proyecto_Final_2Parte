@@ -1,3 +1,426 @@
+/* ── Variables ──────────────────────────────────────────────────────────────── */
+:root {
+  --bg-primary:    #0f172a;
+  --bg-secondary:  #1e293b;
+  --bg-card:       #1a2540;
+  --bg-input:      #0f172a;
+  --border:        #2d3f5e;
+  --text-primary:  #e2e8f0;
+  --text-secondary:#94a3b8;
+  --text-muted:    #64748b;
+  --accent:        #14b8a6;
+  --accent-hover:  #0d9488;
+  --accent-dim:    rgba(20,184,166,.15);
+  --like-color:    #f43f5e;
+  --like-dim:      rgba(244, 63, 94, .15);
+  --rt-color:      #14b8a6;
+  --rt-dim:        rgba(20,184,166,.15);
+  --del-color:     #ef4444;
+  --del-dim:       rgba(239, 68, 68, .15);
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+
 body {
-  background: #f5f8fa;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Navbar ─────────────────────────────────────────────────────────────────── */
+.mt-navbar {
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mt-navbar-brand {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--accent) !important;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+.mt-navbar-brand:hover { color: var(--accent-hover) !important; }
+
+.mt-navbar .nav-actions { display: flex; align-items: center; gap: 8px; }
+
+.nav-username {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────────────────── */
+.mt-feed {
+  max-width: 600px;
+  margin: 24px auto;
+  padding: 0 12px;
+}
+
+/* ── Tuit card ──────────────────────────────────────────────────────────────── */
+.tuit-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 10px;
+  transition: border-color .2s ease, background .2s ease;
+}
+
+.tuit-card:hover {
+  border-color: var(--accent);
+  background: #1e2d4a;
+}
+
+.tuit-card.tuit-main {
+  border-color: var(--accent);
+  background: #1a2f40;
+  margin-bottom: 20px;
+}
+
+/* ── Avatar ─────────────────────────────────────────────────────────────────── */
+.tuit-avatar {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+}
+
+.avatar-large {
+  width: 72px;
+  height: 72px;
+  min-width: 72px;
+  font-size: 22px;
+  margin: 0 auto 12px;
+}
+
+/* ── Username / date ────────────────────────────────────────────────────────── */
+.tuit-username {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: .9rem;
+  text-decoration: none;
+}
+.tuit-username:hover { color: var(--accent-hover); text-decoration: underline; }
+
+.tuit-date {
+  color: var(--text-muted);
+  font-size: .78rem;
+}
+
+/* ── Tuit text ──────────────────────────────────────────────────────────────── */
+.tuit-text {
+  color: var(--text-primary);
+  font-size: .93rem;
+  line-height: 1.55;
+  word-break: break-word;
+  white-space: pre-wrap;
+  margin: 4px 0;
+}
+
+.tuit-main .tuit-text { font-size: 1.05rem; }
+
+.tuit-text.clickable { cursor: pointer; }
+.tuit-text.clickable:hover { opacity: .85; }
+
+/* ── Media ──────────────────────────────────────────────────────────────────── */
+.tuit-media { overflow: hidden; border-radius: 10px; }
+
+.tuit-media img,
+.tuit-media video {
+  display: block;
+  max-width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* YouTube thumbnail */
+.yt-thumb-link { display: block; text-decoration: none; }
+
+.yt-thumb-wrapper {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+  line-height: 0;
+}
+
+.yt-thumb-img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  display: block;
+  opacity: .85;
+  transition: opacity .2s;
+}
+
+.yt-thumb-link:hover .yt-thumb-img { opacity: .65; }
+
+.yt-play-btn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  color: #ff0000;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.6));
+  transition: transform .2s;
+}
+
+.yt-thumb-link:hover .yt-play-btn { transform: scale(1.1); }
+
+/* Video / media fallback link */
+.media-fallback-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--accent);
+  font-size: .9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color .2s, background .2s;
+}
+.media-fallback-link:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+/* ── Action buttons ─────────────────────────────────────────────────────────── */
+.tuit-actions { display: flex; gap: 2px; flex-wrap: wrap; margin-top: 10px; }
+
+.btn-action {
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: .82rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background .15s, color .15s;
+  line-height: 1;
+}
+
+.btn-action:hover           { background: var(--accent-dim); color: var(--accent);   }
+.btn-like:hover,
+.btn-like.active            { background: var(--like-dim)!important; color: var(--like-color)!important; }
+.btn-rt:hover,
+.btn-rt.active              { background: var(--rt-dim)!important;   color: var(--rt-color)!important;   }
+.btn-reply:hover            { background: var(--accent-dim); color: var(--accent); }
+.btn-delete:hover           { background: var(--del-dim)!important;  color: var(--del-color)!important;  }
+
+/* ── Buttons ────────────────────────────────────────────────────────────────── */
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  padding: 7px 18px;
+  font-size: .9rem;
+  transition: background .2s;
+  cursor: pointer;
+}
+.btn-accent:hover, .btn-accent:focus { background: var(--accent-hover); color: #fff; }
+.btn-accent:disabled { opacity: .6; cursor: not-allowed; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: .88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Bootstrap modal overrides ──────────────────────────────────────────────── */
+.modal-content {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border) !important;
+}
+
+.modal-title { font-weight: 700; }
+
+.btn-close { filter: invert(1) grayscale(1); }
+
+/* ── Forms ──────────────────────────────────────────────────────────────────── */
+.form-control, .form-select {
+  background-color: var(--bg-input) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text-primary) !important;
+  border-radius: 8px;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: var(--bg-input) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 .2rem var(--accent-dim) !important;
+  color: var(--text-primary) !important;
+}
+
+.form-control::placeholder { color: var(--text-muted) !important; }
+
+.form-select option { background: var(--bg-secondary); }
+
+.form-label { color: var(--text-secondary); font-size: .88rem; font-weight: 500; }
+
+/* ── Char counter ───────────────────────────────────────────────────────────── */
+.char-counter {
+  color: var(--text-muted);
+  font-size: .78rem;
+  transition: color .2s;
+}
+.char-counter.over-limit { color: var(--del-color); font-weight: 600; }
+
+/* ── Reply quote ────────────────────────────────────────────────────────────── */
+.reply-quote {
+  background: rgba(20, 184, 166, .07);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: .85rem;
+  color: var(--text-secondary);
+  max-height: 90px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.reply-quote::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: linear-gradient(transparent, rgba(20, 184, 166, .07));
+}
+
+/* ── Profile header ─────────────────────────────────────────────────────────── */
+.profile-header {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 20px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.profile-username-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ── Login page ─────────────────────────────────────────────────────────────── */
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+
+.login-logo {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: -1px;
+}
+
+/* ── Replies section ────────────────────────────────────────────────────────── */
+.replies-header {
+  color: var(--text-muted);
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  padding: 8px 0 12px;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+}
+
+/* ── Spinner teal ───────────────────────────────────────────────────────────── */
+.text-teal { color: var(--accent) !important; }
+
+/* ── Toast ──────────────────────────────────────────────────────────────────── */
+#toastContainer {
+  position: fixed;
+  bottom: 24px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 576px) {
+  .mt-feed { margin: 12px auto; padding: 0 6px; }
+  .tuit-card { border-radius: 10px; padding: 12px; }
+  .login-card { padding: 28px 20px; }
+  .nav-username { display: none; }
+  .mt-navbar { padding: 8px 12px; }
 }
