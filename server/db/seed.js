@@ -9,6 +9,8 @@ const USERS = [
   { username: 'alice', password: 'alice123', nombre: 'Alice' },
   { username: 'bob', password: 'bob123', nombre: 'Bob' },
   { username: 'carol', password: 'carol123', nombre: 'Carol' },
+  { username: 'roque', password: 'roque123', nombre: 'Roque' },
+  { username: 'pablo', password: 'pablo123', nombre: 'Pablo' },
 ];
 
 function run(sql, params = []) {
@@ -65,7 +67,7 @@ async function seed() {
   await run('INSERT INTO retuits (usuario_id, tuit_id) VALUES (?, ?)', [userIds.alice, tuit2.lastID]);
   await run('INSERT INTO likes (usuario_id, tuit_id) VALUES (?, ?)', [userIds.alice, tuit3.lastID]);
 
-  console.log('Seed completado: usuarios alice/bob/carol (passwd = "<username>123").');
+  console.log('Seed completado: usuarios alice/bob/carol/roque/pablo (passwd = "<username>123").');
   db.close();
 }
 
